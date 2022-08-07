@@ -16,6 +16,12 @@ query = Query()
 app = FastAPI()
 
 security = HTTPBasic()
+settings = Settings()
+
+
+@app.on_event("shutdown")
+def on_shutdown():
+    db.close()
 
 
 @app.post("/links", status_code=201, response_model=models.LinkResponse)
@@ -24,8 +30,8 @@ def create_link(
     creds: HTTPBasicCredentials = Depends(security),
 ):
     if (
-        creds.username != Settings().auth_username
-        or creds.password != Settings().auth_password
+        creds.username != settings.auth_username
+        or creds.password != settings.auth_password
     ):
         raise HTTPException(status_code=401)
 
