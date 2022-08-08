@@ -57,14 +57,16 @@ def create_link(
 
 @app.get("/{short:str}")
 def get_link(short: str, do_redirect: bool = True):
-    link = parse_obj_as(List[models.Link], db.search(query.short == short))
+    links = parse_obj_as(List[models.Link], db.search(query.short == short))
 
-    if len(link) == 0:
+    if len(links) == 0:
         raise HTTPException(status_code=404, detail="Link not found")
-    elif len(link) > 1:
+    elif len(links) > 1:
         raise HTTPException(status_code=500)
 
+    link = links[0]
+
     if do_redirect:
-        return RedirectResponse(url=link[0].url)
+        return RedirectResponse(url=link.url)
     else:
         return link
