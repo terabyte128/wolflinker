@@ -11,7 +11,7 @@ from tinydb import Query, TinyDB
 from wolflinker import models
 from wolflinker.config import Settings
 
-db = TinyDB("./db.json")
+db = TinyDB("./db/db.json")
 query = Query()
 app = FastAPI()
 
