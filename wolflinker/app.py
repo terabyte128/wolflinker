@@ -1,3 +1,4 @@
+import os
 from typing import List
 from uuid import uuid4
 
@@ -11,7 +12,7 @@ from tinydb import Query, TinyDB
 from wolflinker import models
 from wolflinker.config import Settings
 
-db = TinyDB("./db/db.json")
+db = TinyDB(os.path.join(os.path.dirname(__file__), "db", "db.json"))
 query = Query()
 app = FastAPI()
 
